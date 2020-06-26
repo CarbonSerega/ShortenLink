@@ -18,8 +18,8 @@ export const Navbar = () => {
                 <div className="nav-wrapper">
                     <span className="brand-logo">Shorten Link</span>
                     <ul className="right hide-on-med-and-down">
-                        <li><NavLink to = '/create'>Create</NavLink></li>
-                        <li><NavLink to = '/links'>Links</NavLink></li>
+                        <li><NavLink to = '/create' activeClassName="active-link">Create</NavLink></li>
+                        <li><NavLink to = '/links' activeClassName="active-link">Links</NavLink></li>
                         <li><a href="/" onClick={logoutEventHandler}> Logout </a></li>
                     </ul>
                 </div>

@@ -16,10 +16,16 @@ export const useHttp = () => {
             const data = await resp.json()
 
             if(!resp.ok) {
-                throw new Error(data.message || 'Something went wrong :(')
+                if(resp.status === 401) {
+                    throw new Error("401")
+                } else {
+                    throw new Error(data.message || 'Something went wrong :(')
+                }
             }
+
             setLoading(false)
             return data
+
         } catch (e) {
             setLoading(false)
             setError(e.message)

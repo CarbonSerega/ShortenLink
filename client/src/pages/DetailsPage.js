@@ -8,7 +8,7 @@ import {LinkCard} from "../components/LinkCard";
 export const DetailsPage = () => {
     const {request, loading} = useHttp()
     const [link, setLink] = useState(null)
-    const {token} = useContext(AuthContext)
+    const {token, logout} = useContext(AuthContext)
     const linkId = useParams().id
 
     const getLink = useCallback(async () => {
@@ -18,7 +18,11 @@ export const DetailsPage = () => {
             })
             setLink(data)
 
-        } catch (e) {console.log(e)}
+        } catch (e) {
+            if(e.message === '401') {
+                logout()
+            }
+        }
     }, [token, linkId, request])
 
     useEffect(() => {
@@ -28,8 +32,6 @@ export const DetailsPage = () => {
     if(loading) {
         return <Loader/>
     }
-
-
 
     return (
        <>

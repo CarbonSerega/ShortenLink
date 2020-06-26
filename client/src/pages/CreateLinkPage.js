@@ -5,7 +5,7 @@ import {useHistory} from "react-router-dom"
 
 export const CreateLinkPage = () => {
     const [link, setLink] = useState('')
-    const auth = useContext(AuthContext)
+    const {token, logout} = useContext(AuthContext)
     const history = useHistory()
     const {request} = useHttp()
     const pressHandler = async e => {
@@ -13,12 +13,16 @@ export const CreateLinkPage = () => {
             try {
                 const data = await request('http://localhost:5000/api/links/gen', 'POST', {
                     from: link
-                }, {Authorization: `Bearer ${auth.token}`})
+                }, {Authorization: `Bearer ${token}`})
 
                 console.log(data.link._id)
                 history.push(`/details/${data.link._id}`)
 
-            } catch (e) {}
+            } catch (e) {
+                if(e.message === "401") {
+                    logout()
+                }
+            }
         }
     }
     return (

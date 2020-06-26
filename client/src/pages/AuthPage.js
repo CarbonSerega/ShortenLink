@@ -6,7 +6,7 @@ import {AuthContext} from "../context/auth.context";
 export const AuthPage = () => {
     const {loading, error, request, clearError} = useHttp()
     const message = useMsg()
-    const auth  = useContext(AuthContext)
+    const {login}  = useContext(AuthContext)
 
     const [form, setForm] = useState({
         email: '', password: ''
@@ -35,7 +35,7 @@ export const AuthPage = () => {
     const loginEventHandler = async () => {
         try {
             const data = await request('http://localhost:5000/api/auth/login', 'POST', {...form})
-            auth.login(data.token, data.userId)
+            login(data.token, data.userId)
             message(data.message)
         } catch (e) {}
     }

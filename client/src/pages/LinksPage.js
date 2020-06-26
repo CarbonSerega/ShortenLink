@@ -7,15 +7,22 @@ import {LinksList} from "../components/LinksList";
 export const LinksPage = () => {
     const [links, setLinks] = useState('')
     const {loading, request} = useHttp()
-    const {token} = useContext(AuthContext)
+    const {token, logout} = useContext(AuthContext)
 
     const getLinks = useCallback(async() => {
+
         try {
             const data = await request('http://localhost:5000/api/links', 'GET', null, {
                 Authorization: `Bearer ${token}`
             })
             setLinks(data)
-        } catch (e) { console.log(e) }
+
+        } catch (e) {
+            if(e.message === "401") {
+                logout()
+            }
+        }
+
     }, [token, request])
 
     useEffect(() => {
