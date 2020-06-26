@@ -116,6 +116,8 @@ node_modules
 
 *.sublime*
 
+config/*
+
 psd
 thumb
 sketch

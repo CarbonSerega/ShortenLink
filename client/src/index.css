@@ -1,0 +1,29 @@
+@import "~materialize-css/dist/css/materialize.min.css";
+
+body {
+    color: gray;
+}
+
+input[type=email]:not(.browser-default),
+input[type=password]:not(.browser-default) {
+    border-bottom: #b82d2d 2px solid;
+    box-shadow: none;
+}
+
+input[type=email]:not(.browser-default):focus:not([readonly]),
+input[type=password]:not(.browser-default):focus:not([readonly]),
+input.valid[type=password]:not(.browser-default),
+input.valid[type=email]:not(.browser-default){
+    border-bottom: white 2px solid;
+    box-shadow: none;
+}
+
+.card .card-action {
+    border-top: lightcoral 2px dashed;
+}
+
+.link-card {
+    background: #d9d9d9;
+    padding: 0.1rem 2rem 0.5rem 2rem;
+    margin: 2rem;
+}

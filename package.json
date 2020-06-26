@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "serve": "nodemon app.js"
+    "serve": "nodemon app.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run serve\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -26,7 +28,19 @@
   },
   "homepage": "https://github.com/CarbonSerega/ShortenLink#readme",
   "dependencies": {
+    "bcrypt": "^5.0.0",
+    "concurrently": "^5.2.0",
+    "config": "^3.3.1",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.9.20"
+    "express-validator": "^6.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "materialize-css": "^1.0.0-rc.2",
+    "mongoose": "^5.9.20",
+    "proxy": "^1.0.2",
+    "shortid": "^2.2.15"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }
