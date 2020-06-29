@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useState} from "react"
 import {Link} from "react-router-dom";
 import {LinkContext} from "../context/link.context";
-import {check} from "express-validator";
 
 export const LinkItem = ({link, index, allChecked}) => {
 

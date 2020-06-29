@@ -13,6 +13,8 @@ export const LinksPage = () => {
     const {loading, request} = useHttp()
     const {token, logout} = useContext(AuthContext)
 
+    const [allChecked, setAllChecked] = useState(false)
+
     const getLinks = useCallback(async() => {
 
         try {
@@ -31,7 +33,8 @@ export const LinksPage = () => {
     }, [token, request, logout])
 
     const deleteHandler = useCallback(async() => {
-        if(checkedLinks.length !== 0) {
+
+        if(checkedLinks.size !== 0) {
             try {
                 await request('http://localhost:5000/api/links', 'DELETE', [...checkedLinks], {
                     Authorization: `Bearer ${token}`
@@ -45,13 +48,12 @@ export const LinksPage = () => {
 
                 setLinks(nlinks)
 
-
             } catch (e) {
                 if (e.message === "401") {
                     logout()
                 }
             } finally {
-                setCheckedLinks([])
+                setCheckedLinks(new Set())
             }
         }
 
@@ -59,14 +61,14 @@ export const LinksPage = () => {
 
 
     const createHandler = useCallback(async(link) => {
-        if(!links.filter(l => l.from === link).length) {
+        if(link.replace(/\s/g,"") !== "" && !links.filter(l => l.from === link).length) {
             try {
                 const data = await request('http://localhost:5000/api/links/gen', 'POST', {
                     from: link
                 }, {Authorization: `Bearer ${token}`})
 
-                setLinks([...links, data.link])
 
+                setLinks([...links, data.link])
             } catch (e) {
                 if (e.message === "401") {
                     logout()
@@ -80,6 +82,10 @@ export const LinksPage = () => {
     useEffect(() => {
         getLinks()
     }, [getLinks])
+
+    useEffect(() => {
+        setAllChecked(checkedLinks.size === links.length)
+    }, [checkedLinks, links])
 
     if(loading) {
         return <Loader/>
@@ -110,8 +116,6 @@ export const LinksPage = () => {
         setCheckedLinks(nchecked)
     }
 
-    
-
 
     return (
         <LinkContext.Provider value={{changeChecked}}>
@@ -120,7 +124,7 @@ export const LinksPage = () => {
 
                {!loading && <CreateLink onAddLink={createHandler} />}
 
-               {!loading && <LinksList links={links} onAllChecked={changeAllChecked}/>}
+               {!loading && <LinksList links={links} onAllChecked={changeAllChecked} allChecked={allChecked}/>}
            </>
         </LinkContext.Provider>
     )

@@ -1,9 +1,8 @@
 import React, {useState} from "react"
-import {Link} from "react-router-dom";
-import {LinkItem} from "./LinkItem";
+import {LinkItem} from "./LinkItem"
 
 
-export const LinksList = ({links, onAllChecked}) => {
+export const LinksList = ({links, onAllChecked, allChecked}) => {
 
     const [checked, setChecked] = useState(false)
 
@@ -12,7 +11,6 @@ export const LinksList = ({links, onAllChecked}) => {
             No links!
         </h3>
     }
-
 
     return (
             <table>
@@ -23,7 +21,7 @@ export const LinksList = ({links, onAllChecked}) => {
                             <input
                                 type="checkbox"
                                 className="filled-in"
-                                value={checked}
+                                checked={allChecked}
                                 onChange={e => {
                                     setChecked(e.target.checked)
                                     onAllChecked(e.target.checked)

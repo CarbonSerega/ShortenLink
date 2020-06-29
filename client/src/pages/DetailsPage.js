@@ -23,7 +23,7 @@ export const DetailsPage = () => {
                 logout()
             }
         }
-    }, [token, linkId, request])
+    }, [token, linkId, request, logout])
 
     useEffect(() => {
         getLink()

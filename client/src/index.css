@@ -6,7 +6,8 @@ body {
 
 input:not(.browser-default),
 input[type=email]:not(.browser-default),
-input[type=password]:not(.browser-default) {
+input[type=password]:not(.browser-default),
+input[type=text]:not(.browser-default):focus:not([readonly]){
     border-bottom: #b82d2d 2px solid;
     box-shadow: none;
 }
@@ -26,7 +27,7 @@ input.valid[type=email]:not(.browser-default){
 }
 
 .card .card-action {
-    border-top: lightcoral 2px dashed;
+    border-top: #f08080 2px dashed;
 }
 
 .link-card {
@@ -37,4 +38,13 @@ input.valid[type=email]:not(.browser-default){
 
 .active-link {
     background: #a75252;
+}
+
+[type="checkbox"].filled-in:checked+span:not(.lever):after {
+    background: #f08080;
+    border: #f08080;
+}
+
+.form-table tr{
+    border-bottom: none;
 }

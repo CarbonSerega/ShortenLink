@@ -32,7 +32,8 @@ export const AuthPage = () => {
         } catch (e) {}
     }
 
-    const loginEventHandler = async () => {
+    const loginEventHandler = async (e) => {
+        e.preventDefault()
         try {
             const data = await request('http://localhost:5000/api/auth/login', 'POST', {...form})
             login(data.token, data.userId)
@@ -44,7 +45,7 @@ export const AuthPage = () => {
        <div className="row">
            <div className="col s6 center offset-s3">
                 <h2>Shorten the Link!</h2>
-               <div className="card red lighten-1">
+               <form className="card red lighten-1">
                    <div className="card-content white-text">
                        <span className="card-title">Authorization</span>
                        <div style={{marginTop: 40}}>
@@ -73,7 +74,8 @@ export const AuthPage = () => {
                    <div className="card-action">
                        <button
                            className="btn red lighten-2"
-                           onClick={loginEventHandler}
+                           type="submit"
+                           onClick={e => loginEventHandler(e)}
                            disabled={loading}
                        >
                            Login</button>
@@ -85,7 +87,7 @@ export const AuthPage = () => {
                        >
                            Register</button>
                    </div>
-               </div>
+               </form>
            </div>
        </div>
     )

@@ -55,7 +55,6 @@ router.delete('/', auth, async(req, resp) => {
             owner: req.user.userId,
             _id: {$in: req.body}
         })
-
         await resp.json(true)
     } catch (e) {
         await resp.status(500).json({message: "Something went wrong!"})
