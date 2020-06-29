@@ -4,18 +4,25 @@ body {
     color: gray;
 }
 
+input:not(.browser-default),
 input[type=email]:not(.browser-default),
 input[type=password]:not(.browser-default) {
     border-bottom: #b82d2d 2px solid;
     box-shadow: none;
 }
-
+input:not(.browser-default):focus:not([readonly]),
 input[type=email]:not(.browser-default):focus:not([readonly]),
 input[type=password]:not(.browser-default):focus:not([readonly]),
+input.valid:not(.browser-default),
 input.valid[type=password]:not(.browser-default),
 input.valid[type=email]:not(.browser-default){
     border-bottom: white 2px solid;
     box-shadow: none;
+    color: white;
+}
+
+[type="checkbox"]+span:not(.lever) {
+    display: inline;
 }
 
 .card .card-action {

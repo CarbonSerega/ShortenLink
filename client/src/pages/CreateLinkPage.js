@@ -8,6 +8,7 @@ export const CreateLinkPage = () => {
     const {token, logout} = useContext(AuthContext)
     const history = useHistory()
     const {request} = useHttp()
+
     const pressHandler = async e => {
         if(e.key === 'Enter') {
             try {
@@ -15,7 +16,6 @@ export const CreateLinkPage = () => {
                     from: link
                 }, {Authorization: `Bearer ${token}`})
 
-                console.log(data.link._id)
                 history.push(`/details/${data.link._id}`)
 
             } catch (e) {
@@ -34,6 +34,7 @@ export const CreateLinkPage = () => {
                        id = "link"
                        type = "text"
                        value={link}
+                       style={{color: 'gray'}}
                        onChange={e => setLink(e.target.value)}
                        onKeyPress={pressHandler}
                    />

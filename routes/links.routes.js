@@ -24,28 +24,41 @@ router.post('/gen', auth, async (req, resp) => {
 
         await link.save()
 
-        resp.status(201).json({ link })
+        await resp.status(201).json({link})
 
     } catch (e) {
-        resp.status(500).json({message: "Something went wrong!"})
+        await resp.status(500).json({message: "Something went wrong!"})
     }
 })
 
 router.get('/', auth, async (req, resp) => {
     try {
         const links = await Link.find({owner: req.user.userId})
-        resp.json(links)
+        await resp.json(links)
     } catch (e) {
-        resp.status(500).json({message: "Something went wrong!"})
+        await resp.status(500).json({message: "Something went wrong!"})
     }
 })
 
 router.get('/:id', auth, async (req, resp) => {
     try {
         const link = await Link.findById(req.params.id)
-        resp.json(link)
+        await resp.json(link)
     } catch (e) {
-        resp.status(500).json({message: "Something went wrong!"})
+        await resp.status(500).json({message: "Something went wrong!"})
+    }
+})
+
+router.delete('/', auth, async(req, resp) => {
+    try {
+        await Link.deleteMany({
+            owner: req.user.userId,
+            _id: {$in: req.body}
+        })
+
+        await resp.json(true)
+    } catch (e) {
+        await resp.status(500).json({message: "Something went wrong!"})
     }
 })
 

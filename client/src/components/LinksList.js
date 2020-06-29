@@ -1,37 +1,49 @@
-import React from "react"
+import React, {useState} from "react"
 import {Link} from "react-router-dom";
+import {LinkItem} from "./LinkItem";
 
 
-export const LinksList = ({links}) => {
+export const LinksList = ({links, onAllChecked}) => {
+
+    const [checked, setChecked] = useState(false)
+
     if(!links.length) {
         return <h3 className="center">
             No links!
         </h3>
     }
+
+
     return (
             <table>
                 <thead>
                 <tr>
+                    <th className="center">
+                        <label>
+                            <input
+                                type="checkbox"
+                                className="filled-in"
+                                value={checked}
+                                onChange={e => {
+                                    setChecked(e.target.checked)
+                                    onAllChecked(e.target.checked)
+                                }}
+                                />
+                            <span/>
+                        </label>
+                    </th>
                     <th>#</th>
                     <th>Original</th>
                     <th>Shortened</th>
                     <th>Clicks</th>
-                    <th></th>
+                    <th/>
                 </tr>
                 </thead>
 
                 <tbody>
                 {links.map((l, i) => {
                     return (
-                        <tr key = {l._id}>
-                            <td>{i + 1}</td>
-                            <td>{l.from}</td>
-                            <td>{l.to}</td>
-                            <td>{l.clicks}</td>
-                            <td>
-                                <Link to={`/details/${l._id}`}>Open</Link>
-                            </td>
-                        </tr>
+                        <LinkItem key = {l._id} link={l} index={i} allChecked = {checked}/>
                     )
                 })}
 
