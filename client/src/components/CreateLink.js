@@ -1,22 +1,36 @@
-import React, {useState} from "react"
+import React, {useContext, useEffect, useState} from "react"
 
 export const CreateLink = ({onAddLink}) => {
     const [link, setLink] = useState('')
+    const [invalid, setInvalid] = useState('')
 
     const submitHandler = e => {
         e.preventDefault()
-        onAddLink(link)
-        setLink('')
+
+        if(!invalid.length) {
+            onAddLink(link)
+            setLink('')
+        }
     }
+
+    useEffect(() => {
+        if(/^[a-z]+:\/\//i.test(link)) {
+            setInvalid('')
+        } else {
+            setInvalid('Please, input the link correctly!')
+        }
+    }, [link])
 
     return (
         <div className="row">
             <form className="col s8 offset-s2">
+
                 <table className='form-table'>
                     <tbody>
                     <tr>
                         <td>
                             <div className="input-field">
+                              <span className="text-darken-3 red-text">{invalid}</span>
                             <input
                                 placeholder = "Insert a link"
                                 id = "link"
