@@ -13,7 +13,7 @@ export const LinksPage = () => {
     const {loading, request} = useHttp()
     const {token, logout} = useContext(AuthContext)
 
-    const [allChecked, setAllChecked] = useState(false)
+    const [allChecked, setAllChecked] = useState(0)
 
     const getLinks = useCallback(async() => {
 
@@ -84,8 +84,15 @@ export const LinksPage = () => {
     }, [getLinks])
 
     useEffect(() => {
-        setAllChecked(checkedLinks.size === links.length)
-    }, [checkedLinks, links])
+
+        if(checkedLinks.size === links.length && links.length !== 0) {
+            setAllChecked(2)
+        } else if(checkedLinks.size < links.length && checkedLinks.size > 0) {
+            setAllChecked(1)
+        } else {
+            setAllChecked(0)
+        }
+    }, [checkedLinks, links, getLinks])
 
     if(loading) {
         return <Loader/>

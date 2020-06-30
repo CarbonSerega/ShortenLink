@@ -1,10 +1,18 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import {LinkItem} from "./LinkItem"
 
 
 export const LinksList = ({links, onAllChecked, allChecked}) => {
 
     const [checked, setChecked] = useState(false)
+
+    useEffect(() => {
+        if(allChecked === 2)
+          setChecked(true)
+        else if(allChecked === 0) {
+            setChecked(false)
+        }
+    }, [allChecked])
 
     if(!links.length) {
         return <h3 className="center">
@@ -21,7 +29,7 @@ export const LinksList = ({links, onAllChecked, allChecked}) => {
                             <input
                                 type="checkbox"
                                 className="filled-in"
-                                checked={allChecked}
+                                checked={checked}
                                 onChange={e => {
                                     setChecked(e.target.checked)
                                     onAllChecked(e.target.checked)
