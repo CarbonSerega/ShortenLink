@@ -88,6 +88,10 @@ export const LinksPage = () => {
                     message("Something went wrong :(")
                 }
             }
+        } else if (links.filter(l => l.from === link).length > 0) {
+            message("This link is already exists!")
+        } else {
+            message("Link field should not be empty! Fill it with correct url!")
         }
 
     }, [token, request, logout, links, message])
