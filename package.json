@@ -4,10 +4,12 @@
   "description": "A test project to shorten different urls",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "cross-env NODE_ENV=production node app.js",
     "serve": "nodemon app.js",
     "client": "npm run start --prefix client",
-    "dev": "concurrently \"npm run serve\" \"npm run client\""
+     "client:install": "npm install --prefix client",
+    "client:build": "npm run build --prefix client",
+    "dev": "cross-env NODE_ENV=development concurrently \"npm run serve\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -44,6 +46,7 @@
     "shortid": "^2.2.15"
   },
   "devDependencies": {
+    "cross-env": "^7.0.2",
     "nodemon": "^2.0.4"
   }
 }
