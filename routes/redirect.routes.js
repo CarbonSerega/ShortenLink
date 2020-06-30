@@ -15,7 +15,7 @@ router.get('/:code', async (req, resp) => {
         return resp.redirect(link.from)
 
     } catch (e) {
-        resp.status(500).json({message: "Something went wrong!"})
+        await resp.status(500).json({message: "Something went wrong!"})
     }
 })
 

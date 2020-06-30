@@ -1,6 +1,6 @@
-import React, {useContext, useEffect, useState} from "react"
+import React, {useEffect, useState} from "react"
 
-export const CreateLink = ({onAddLink}) => {
+export const CreateLink = ({onAddLink, links}) => {
     const [link, setLink] = useState('')
     const [invalid, setInvalid] = useState('')
 
@@ -8,13 +8,18 @@ export const CreateLink = ({onAddLink}) => {
         e.preventDefault()
 
         if(!invalid.length) {
-            onAddLink(link)
-            setLink('')
+            if(links < 50) {
+                onAddLink(link)
+                setLink('')
+                setInvalid('')
+            } else {
+                setInvalid('You can add maximum 50 links!')
+            }
         }
     }
 
     useEffect(() => {
-        if(/^[a-z]+:\/\//i.test(link)) {
+        if(/^[a-z]+:\/\//i.test(link) || link === '') {
             setInvalid('')
         } else {
             setInvalid('Please, input the link correctly!')
@@ -44,8 +49,8 @@ export const CreateLink = ({onAddLink}) => {
                         <td>
                             <button
                                 type="submit"
-                                className="btn-floating red lighten-2"
-                                onClick={e => submitHandler(e)}><i className="material-icons">add</i></button>
+                                className="btn-small red lighten-2"
+                                onClick={e => submitHandler(e)}>Add</button>
                         </td>
                     </tr>
                     </tbody>

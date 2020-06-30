@@ -17,7 +17,7 @@ export const LinkItem = ({link, index, allChecked}) => {
     }, [allChecked])
 
     return (
-        <tr key = {link._id}>
+        <tr key = {link._id} className={checked ? "red lighten-5" : ""}>
             <td style={{textAlign: 'center'}}>
                 <label>
                     <input
@@ -32,10 +32,10 @@ export const LinkItem = ({link, index, allChecked}) => {
             </td>
             <td>{index + 1}</td>
             <td>{link.from}</td>
-            <td>{link.to}</td>
+            <td> <a href={link.to} target="_blank" rel="noopener noreferrer">{link.to}</a></td>
             <td>{link.clicks}</td>
             <td>
-                <Link to={`/details/${link._id}`}>Open</Link>
+                <Link to={`/details/${link._id}`}>Details</Link>
             </td>
         </tr>
     )

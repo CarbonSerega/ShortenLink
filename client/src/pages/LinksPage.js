@@ -6,12 +6,18 @@ import {Loader} from "../components/Loader";
 import {LinksList} from "../components/LinksList";
 import {FloatingButton} from "../components/FloatingButton";
 import {CreateLink} from "../components/CreateLink";
+import {useMsg} from "../hooks/msg.hook";
+
+import jsPDF from 'jspdf'
+import {usePdf} from "../hooks/pdf.hook";
 
 export const LinksPage = () => {
     const [links, setLinks] = useState([])
     const [checkedLinks, setCheckedLinks] = useState(new Set())
     const {loading, request} = useHttp()
     const {token, logout} = useContext(AuthContext)
+    const message = useMsg()
+    const pdf = usePdf()
 
     const [allChecked, setAllChecked] = useState(0)
 
@@ -27,10 +33,12 @@ export const LinksPage = () => {
         } catch (e) {
             if(e.message === "401") {
                 logout()
+            } else {
+                message("Something went wrong :(")
             }
         }
 
-    }, [token, request, logout])
+    }, [token, request, logout, message])
 
     const deleteHandler = useCallback(async() => {
 
@@ -51,13 +59,17 @@ export const LinksPage = () => {
             } catch (e) {
                 if (e.message === "401") {
                     logout()
+                } else {
+                    message("Something went wrong :(")
                 }
             } finally {
                 setCheckedLinks(new Set())
             }
+        } else {
+            message("Select links you want to delete")
         }
 
-    }, [token, request, logout, checkedLinks])
+    }, [token, request, logout, checkedLinks, links, message])
 
 
     const createHandler = useCallback(async(link) => {
@@ -72,11 +84,29 @@ export const LinksPage = () => {
             } catch (e) {
                 if (e.message === "401") {
                     logout()
+                } else {
+                    message("Something went wrong :(")
                 }
             }
         }
 
-    }, [token, request, logout, links])
+    }, [token, request, logout, links, message])
+
+
+    const saveHandler = () => {
+
+        if(checkedLinks.size !== 0) {
+            let _links = []
+
+            checkedLinks.forEach(id => {
+                _links = [..._links, ...links.filter(l => l._id === id)]
+            })
+            pdf(_links)
+        } else {
+            message("Select links you want to export to pdf")
+        }
+
+    }
 
 
     useEffect(() => {
@@ -84,7 +114,6 @@ export const LinksPage = () => {
     }, [getLinks])
 
     useEffect(() => {
-
         if(checkedLinks.size === links.length && links.length !== 0) {
             setAllChecked(2)
         } else if(checkedLinks.size < links.length && checkedLinks.size > 0) {
@@ -127,9 +156,9 @@ export const LinksPage = () => {
     return (
         <LinkContext.Provider value={{changeChecked}}>
            <>
-               {!loading && <FloatingButton onDelete = {deleteHandler} />}
+               {!loading && <FloatingButton onDelete = {deleteHandler} onSave = {saveHandler} />}
 
-               {!loading && <CreateLink onAddLink={createHandler} />}
+               {!loading && <CreateLink onAddLink={createHandler} links = {links.length}/>}
 
                {!loading && <LinksList links={links} onAllChecked={changeAllChecked} allChecked={allChecked}/>}
            </>

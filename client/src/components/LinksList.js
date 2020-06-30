@@ -21,7 +21,7 @@ export const LinksList = ({links, onAllChecked, allChecked}) => {
     }
 
     return (
-            <table>
+            <table style={{marginBottom: '5rem'}} cellSpacing="0" border="0">
                 <thead>
                 <tr>
                     <th className="center">
